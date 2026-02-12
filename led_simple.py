@@ -1,60 +1,39 @@
-#!/usr/bin/env python3
-"""
-Contrôle simple de 3 LEDs via GPIO.
-
-À COMPLÉTER : Ajoutez le code pour contrôler 3 LEDs
-- LED rouge sur GPIO 17
-- LED verte sur GPIO 27
-- LED jaune sur GPIO 22
-
-Câblage :
-- LED rouge : GPIO 17 → résistance 330Ω → GND
-- LED verte : GPIO 27 → résistance 330Ω → GND
-- LED jaune : GPIO 22 → résistance 330Ω → GND
-"""
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#   "adafruit-blinka",
+#   "rpi-gpio"
+# ]
+# ///
 
 import time
-import RPi.GPIO as GPIO
+import board
+import digitalio
+import RPi.GPIO
 
-# Configuration des broches GPIO
-LED_ROUGE = 17
-LED_VERTE = 27
-LED_JAUNE = 22
+# Définition des pins GPIO
+led_rouge = digitalio.DigitalInOut(board.D17)
+led_verte = digitalio.DigitalInOut(board.D27)
+led_jaune = digitalio.DigitalInOut(board.D22)
 
-# TODO : Configurer le mode BCM
-# GPIO.setmode(GPIO.???)
+# Mode sortie
+led_rouge.direction = digitalio.Direction.OUTPUT
+led_verte.direction = digitalio.Direction.OUTPUT
+led_jaune.direction = digitalio.Direction.OUTPUT
 
-# TODO : Configurer les broches en sortie
-# GPIO.setup(..., GPIO.OUT)
+while True:
+    # Allume une LED à la fois
+    led_rouge.value = True
+    led_verte.value = False
+    led_jaune.value = False
+    time.sleep(1)
 
-def allumer_toutes():
-    """Allume toutes les LEDs."""
-    # TODO : Implémenter
-    pass
+    led_rouge.value = False
+    led_verte.value = True
+    led_jaune.value = False
+    time.sleep(1)
 
-def eteindre_toutes():
-    """Éteint toutes les LEDs."""
-    # TODO : Implémenter
-    pass
-
-def main():
-    """Fonction principale."""
-    print("Contrôle de 3 LEDs")
-    print("Rouge = GPIO 17, Verte = GPIO 27, Jaune = GPIO 22")
-    print("Appuyez sur Ctrl+C pour quitter")
-
-    try:
-        while True:
-            # TODO : Allumer chaque LED une par une
-            # avec 1 seconde d'intervalle
-            pass
-
-    except KeyboardInterrupt:
-        print("\nAu revoir!")
-    finally:
-        # TODO : Nettoyer les GPIO avant de quitter
-        # GPIO.cleanup()
-        pass
-
-if __name__ == "__main__":
-    main()
+    led_rouge.value = False
+    led_verte.value = False
+    led_jaune.value = True
+    time.sleep(1)
